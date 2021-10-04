@@ -1,6 +1,6 @@
 package main.java.design.pattern;
 
-public class SingletonImpl {
+public class SingletonImpl implements Cloneable {
 
     /**
      * 5. Without volatile modifier, it’s possible for another thread in Java to see
@@ -38,6 +38,22 @@ public class SingletonImpl {
      * serializing and deserializing the singleton.
      */
     protected SingletonImpl readResolve() {
+        return getInstance();
+    }
+
+    /**
+     * 7. Cloning is a concept to create duplicate objects. Using clone we can
+     * create copy of object. Suppose, we create clone of a singleton object, then
+     * it will create a copy that is there are two instances of a singleton class,
+     * hence the class is no more singleton. To overcome this issue, override
+     * clone() method and throw an exception from clone method that is
+     * CloneNotSupportedException or return the existing instance. Now whenever user
+     * will try to create clone of singleton object, it will throw exception or
+     * return the existing instance and hence our class remains singleton.
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        // throw new CloneNotSupportedException(); or
         return getInstance();
     }
 }
